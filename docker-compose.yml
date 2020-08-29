@@ -1,0 +1,39 @@
+version: "3"
+services:
+  metadata-db:
+    image: postgres:10
+    ports:
+      - 5432:5432
+    env_file:
+      - pg.env
+
+  airflow-init:
+    image: apache/airflow
+    depends_on:
+      - metadata-db
+    command:
+      - initdb
+    env_file:
+      - shared.env
+
+  airflow-webserver:
+    image: apache/airflow
+    restart: always
+    command:
+      - webserver
+    env_file:
+      - shared.env
+    ports:
+      - 8080:8080
+    volumes:
+      - ./airflow_home:/opt/airflow
+
+  airflow-scheduler:
+    image: apache/airflow
+    restart: always
+    command:
+      - scheduler
+    env_file:
+      - shared.env
+    volumes:
+      - ./airflow_home/:/opt/airflow/
