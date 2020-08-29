@@ -8,7 +8,7 @@ services:
       - pg.env
 
   airflow-init:
-    image: apache/airflow
+    build: .
     depends_on:
       - metadata-db
     command:
@@ -17,7 +17,7 @@ services:
       - shared.env
 
   airflow-webserver:
-    image: apache/airflow
+    build: .
     restart: always
     command:
       - webserver
@@ -26,14 +26,14 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./airflow_home:/opt/airflow
+      - ./dags:/opt/airflow/dags
 
   airflow-scheduler:
-    image: apache/airflow
+    build: .
     restart: always
     command:
       - scheduler
     env_file:
       - shared.env
     volumes:
-      - ./airflow_home/:/opt/airflow/
+      - ./dags:/opt/airflow/dags
