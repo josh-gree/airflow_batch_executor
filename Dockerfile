@@ -7,6 +7,8 @@ COPY hj_plugin /hj_plugin
 RUN pip install /hj_plugin
 
 # install extra deps
-RUN pip install pandas awswrangler ipython
+RUN pip install docker
+
+RUN chown airflow /opt/airflow/
 
 USER airflow
