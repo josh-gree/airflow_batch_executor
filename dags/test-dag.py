@@ -1,4 +1,5 @@
 import logging
+import socket
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
@@ -14,7 +15,7 @@ with DAG(
     schedule_interval=None,
 ) as dag:
 
-    t1 = PythonOperator(task_id='t1', python_callable=lambda : logging.info("in t1"))
-    t2 = PythonOperator(task_id='t2', python_callable=lambda : logging.info("in t2"))
+    t1 = PythonOperator(task_id='t1', python_callable=lambda : logging.info(socket.gethostname()))
+    t2 = PythonOperator(task_id='t2', python_callable=lambda : logging.info(socket.gethostname()))
     
     t1 >> t2
