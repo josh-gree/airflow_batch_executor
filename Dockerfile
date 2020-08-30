@@ -6,4 +6,7 @@ USER root
 COPY hj_plugin /hj_plugin
 RUN pip install /hj_plugin
 
+# install extra deps
+RUN pip install pandas awswrangler ipython
+
 USER airflow
